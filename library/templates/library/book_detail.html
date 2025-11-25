@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ book.title }} — Details</title>
+</head>
+<body>
+
+    <h1>{{ book.title }}</h1>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Description:</strong> {{ book.description }}</p>
+
+    <h2>Copies</h2>
+
+    <ul>
+        {% for copy in copies %}
+            <li>
+                Copy {{ copy.barcode }} — Status: {{ copy.status }}
+            </li>
+        {% empty %}
+            <li>No copies available.</li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="/books/">⟵ Back to all books</a>
+
+</body>
+</html>

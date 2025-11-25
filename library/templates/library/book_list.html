@@ -10,7 +10,9 @@
     <ul>
         {% for book in books %}
             <li>
+                <a href="/books/{{ book.id }}/">
                 {{ book.title }} — {{ book.author }}
+                </a>
             </li>
         {% empty %}
             <li>No books found.</li>
