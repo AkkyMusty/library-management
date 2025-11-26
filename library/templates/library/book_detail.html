@@ -13,14 +13,22 @@
     <h2>Copies</h2>
 
     <ul>
-        {% for copy in copies %}
-            <li>
-                Copy {{ copy.barcode }} — Status: {{ copy.status }}
-            </li>
-        {% empty %}
-            <li>No copies available.</li>
-        {% endfor %}
+    {% for copy in copies %}
+        <li>
+            Copy {{ copy.barcode }} — Status: {{ copy.status }}
+
+            {% if copy.status == "available" %}
+                <form action="/borrow/{{ copy.id }}/" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Borrow</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
     </ul>
+
+
+
 
     <br>
     <a href="/books/">⟵ Back to all books</a>
