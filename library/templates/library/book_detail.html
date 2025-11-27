@@ -22,9 +22,15 @@
                     {% csrf_token %}
                     <button type="submit">Borrow</button>
                 </form>
+            {% elif copy.status == "borrowed" %}
+                <form action="/return/{{ copy.id }}/" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Return</button>
+                </form>
             {% endif %}
         </li>
     {% endfor %}
+
     </ul>
 
 

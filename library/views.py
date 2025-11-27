@@ -1,5 +1,10 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from .models import Book, BookCopy
+from django.urls import reverse
+from django.utils import timezone
+from .models import Book, BookCopy, BorrowRecord
+
+
 # Create your views here.
 
 
@@ -37,6 +42,30 @@ def borrow_copy(request, copy_id):
         borrow_date=timezone.now(),
         due_date=timezone.now() + timezone.timedelta(days=14)  # 2 weeks
     )
+
+    return HttpResponseRedirect(
+        reverse('book_detail', args=[copy.book.id])
+    )
+
+def return_copy(request, copy_id):
+    copy = get_object_or_404(BookCopy, id=copy_id)
+
+    # Only borrowed copies can be returned
+    if copy.status != BookCopy.STATUS_BORROWED:
+        return HttpResponseRedirect(
+            reverse('book_detail', args=[copy.book.id])
+        )
+
+    # Find the active borrow record (the one without a return date)
+    record = BorrowRecord.objects.filter(copy=copy, return_date__isnull=True).first()
+
+    if record:
+        record.return_date = timezone.now()
+        record.save()
+
+    # Change copy status back to available
+    copy.status = BookCopy.STATUS_AVAILABLE
+    copy.save()
 
     return HttpResponseRedirect(
         reverse('book_detail', args=[copy.book.id])
