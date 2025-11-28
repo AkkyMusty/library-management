@@ -1,7 +1,8 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
+from .forms import BookForm
 from .models import Book, BookCopy, BorrowRecord
 
 
@@ -70,3 +71,17 @@ def return_copy(request, copy_id):
     return HttpResponseRedirect(
         reverse('book_detail', args=[copy.book.id])
     )
+
+
+
+def add_book(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            book = form.save()
+            return redirect('book_detail', book.id)
+    else:
+        form = BookForm()
+
+    return render(request, 'library/add_book.html', {'form': form})
+

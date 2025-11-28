@@ -7,6 +7,7 @@ urlpatterns = [
     path('books/<int:book_id>/', views.book_detail, name='book_detail'),
     path('borrow/<int:copy_id>/', views.borrow_copy, name='borrow_copy'),
     path('return/<int:copy_id>/', views.return_copy, name='return_copy'),
+    path('books/add/', views.add_book, name='add_book'),
 
 
 
