@@ -8,6 +8,8 @@ urlpatterns = [
     path('borrow/<int:copy_id>/', views.borrow_copy, name='borrow_copy'),
     path('return/<int:copy_id>/', views.return_copy, name='return_copy'),
     path('books/add/', views.add_book, name='add_book'),
+    path('books/available/', views.available_books, name='available_books'),
+
 
 
 

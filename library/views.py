@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Count, Q
 from django.urls import reverse
 from django.utils import timezone
 from .forms import BookForm
@@ -85,3 +86,10 @@ def add_book(request):
 
     return render(request, 'library/add_book.html', {'form': form})
 
+
+def available_books(request):
+    books = Book.objects.annotate(
+        available_count=Count('copies', filter=Q(copies__status='available'))
+    ).filter(available_count__gt=0)
+
+    return render(request, 'library/available_books.html', {'books': books})
