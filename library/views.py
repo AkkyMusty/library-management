@@ -19,9 +19,16 @@ def book_detail(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     copies = book.copies.all()  # because we used related_name='copies'
 
+    available_count = book.copies.filter(status='available').count()
+    borrowed_count = book.copies.filter(status='borrowed').count()
+    reserved_count = book.copies.filter(status='reserved').count()
+
     return render(request, 'library/book_detail.html', {
         'book': book,
-        'copies': copies
+        'copies': copies,
+        'available_count': available_count,
+        'borrowed_count': borrowed_count,
+        'reserved_count': reserved_count,
     })
 
 def borrow_copy(request, copy_id):
