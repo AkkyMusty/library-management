@@ -7,17 +7,24 @@
 <body>
     <h1>All Books</h1>
 
+    <form method="GET">
+        <input type="text" name="q" placeholder="Search books..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+
     <ul>
+    {% if books %}
         {% for book in books %}
             <li>
-                <a href="/books/{{ book.id }}/">
-                {{ book.title }} — {{ book.author }}
-                </a>
+                <a href="{% url 'book_detail' book.id %}">{{ book.title }}</a>
             </li>
-        {% empty %}
-            <li>No books found.</li>
         {% endfor %}
+    {% else %}
+        <li>No books found matching your search.</li>
+    {% endif %}
     </ul>
+
 
 </body>
 </html>
