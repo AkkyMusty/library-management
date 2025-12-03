@@ -9,6 +9,8 @@ urlpatterns = [
     path('return/<int:copy_id>/', views.return_copy, name='return_copy'),
     path('books/add/', views.add_book, name='add_book'),
     path('books/available/', views.available_books, name='available_books'),
+    path('books/<int:book_id>/edit/', views.edit_book, name='edit_book'),
+
 
 
 

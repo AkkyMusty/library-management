@@ -117,3 +117,16 @@ def available_books(request):
     ).filter(available_count__gt=0)
 
     return render(request, 'library/available_books.html', {'books': books})
+
+def edit_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('book_detail', book.id)
+    else:
+        form = BookForm(instance=book)
+
+    return render(request, 'library/edit_book.html', {'form': form, 'book': book})

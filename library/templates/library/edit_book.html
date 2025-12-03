@@ -1,0 +1,10 @@
+<h1>Edit Book: {{ book.title }}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<a href="{% url 'book_detail' book.id %}">Cancel</a>
